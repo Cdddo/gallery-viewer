@@ -106,69 +106,140 @@
 
             initCameraFeed();
 
-            let urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has("asset")) {
-                let assetId = urlParams.get("asset");
-                let metadataJson = await fetch(`https://api.icosa.gallery/v1/assets/${assetId}`);
-                let json = await metadataJson.json();
-                let formats = json.formats || [];
-                let presentationParams = json.presentationParams;
-                let overrides = {
-                    'defaultBackgroundColor': presentationParams?.backgroundColor || "#000000",
-                    'camera': presentationParams?.camera,
-                    'geometryData': presentationParams?.GOOGLE_geometry_data,
-                    'colorSpace': presentationParams?.colorSpace,
-                };
+            // Get parameters from URL
+            const id = new URLSearchParams(window.location.search).get('id');
+            const cases = {
+                "0": {
+                    "name": "Test Model",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/test/Untitled_0.glb",
+                    "rotation": [-0.0242630885505416, 0.9372331109337174, 0.0666042056168146, 0.3414224335008579],
+                    "position": [0.9495268673616416, 1.7051674160828811, -1.2429322629184787],
+                    "target": [-0.6741747179498548, 1.3445624988794393, 0.689918799958044],
+                },
+                "1": {
+                    "name": "Afrodita",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/afrodita/v4/Untitled_77.glb",
+                    "rotation": [-0.0114728723762636, 0.9733957985095537, 0.0500092522950934, 0.2233115924628011],
+                    "position": [0.0569427208560058, 2.2455122554781330, -0.3224747904081743],
+                    "target": [-0.4814734140087914, 2.1182553817794152, 0.7892193809845062],
+                },
+                "2": {
+                    "name": "Atenea",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/atenea/v3/Untitled_61.glb",
+                    "rotation": [-0.0505152937755449, 0.0138757464903558, 0.0007019013700768, 0.9986266449922975],
+                    "position": [-0.0808995803556482, 10.1169599514833912, 1.0869251019883226],
+                    "target": [-0.2257358881574956, 9.5882219612423629, -4.1239466745552518],
+                },
+                "3": {
+                    "name": "Demeter",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/demeter/v4/Untitled_72.glb",
+                    "rotation": [0.0725293008098897, 0.1248628932591930, -0.0091525292258302, 0.9894771294071139],
+                    "position": [-0.6117859672919848, 5.6689252517083268, 0.8085830407613579],
+                    "target": [-1.4809128538505778, 6.1845862663993598, -2.5802810034809451],
+                },
+                "3b": {
+                    "name": "Demeter",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/demeter/v3/Untitled_69.glb",
+                    "rotation": [0.0725293008098897, 0.1248628932591930, -0.0091525292258302, 0.9894771294071139],
+                    "position": [-0.6117859672919848, 5.6689252517083268, 0.8085830407613579],
+                    "target": [-1.4809128538505778, 6.1845862663993598, -2.5802810034809451],
+                },
+                "4": {
+                    "name": "Hathor",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/hathor/v3/Untitled_66.glb",
+                    "rotation": [-0.0275665047824467, 0.9683778768866191, 0.1244797861268821, 0.2144508293675941],
+                    "position": [-0.3111807547380078, 1.8310522673262415, -0.2919961646343774],
+                    "target": [-0.8094840659405970, 1.5225248589725886, 0.7779018166818052],
+                },
+                "5": {
+                    "name": "Hecate",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/hecate/v4/Untitled_73.glb",
+                    "rotation": [0.0010413283410902, 0.9989199882653236, 0.0369485301621450, -0.0281527760291761],
+                    "position": [-0.0149918015427358, 2.1339305262094785, -0.7071207049631006],
+                    "target": [0.0570708774829279, 2.0391485518705599, 0.5703318863668881],
+                },
+                "6": {
+                    "name": "Isis",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/isis/v4/Untitled_71.glb",
+                    "rotation": [0.0453414538198378, 0.3344412844530084, -0.0161116214865992, 0.9411873328259351],
+                    "position": [0.9120853578139480, 13.0433462661125148, -1.1461817271339725],
+                    "target": [-0.4287081364262880, 13.2485511272467686, -2.7945989834914200],
+                },
+                "505": {
+                    "name": "Afrodita",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/afrodita/v1/Untitled_505.glb",
+                    "rotation": [0.0011042689145662, 0.9987076452898269, 0.0442930094470669, -0.0248987779606886],
+                    "position": [0.0108778333247246, 2.2343745819943410, -0.4346332471489558],
+                    "target": [0.0419812357566649, 2.1789005174497009, 0.1887688003831545],
+                },
+                "48": {
+                    "name": "Atenea",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/atenea/v1/Untitled_48.glb",
+                    "rotation": [-0.0432504857675537, -0.1863086593205507, -0.0082097841016313, 0.9815044973855465],
+                    "position": [0.2208818626141567, 9.0716673312409561, -0.4124320047325343],
+                    "target": [1.8794487386907275, 8.6719914085684646, -4.6238186878762164],
+                },
+                "607": {
+                    "name": "Demeter",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/demeter/v1/Untitled_607.glb",
+                    "rotation": [-0.0733547984409287, 0.0088217057524412, 0.0006488880664438, 0.9972666794782552],
+                    "position": [-0.0442979011184844, 5.8991044659028349, 1.2685957480200627],
+                    "target": [-0.1177232790463011, 5.2851838086740539, -2.8813359705669916],
+                },
+                "47": {
+                    "name": "Hathor",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/hathor/v1/Untitled_47.glb",
+                    "rotation": [-0.0202861731066084, 0.9788617083785720, 0.1217824202589472, 0.1630560307585873],
+                    "position": [-0.1474373197724407, 1.7669227705873281, -0.2520042515992922],
+                    "target": [-0.5308272867981758, 1.468006290325621, 0.8668514643432459],
+                },
+                "49": {
+                    "name": "Hecate",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/hecate/v1/Untitled_49.glb",
+                    "rotation": [0.0010413283410902, 0.9989199882653236, 0.0369485301621450, -0.0281527760291761],
+                    "position": [-0.0149918015427358, 2.1339305262094785, -0.7071207049631006],
+                    "target": [0.0570708774829279, 2.0391485518705599, 0.5703318863668881],
+                },
+                "46": {
+                    "name": "Isis",
+                    "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/isis/v1/Untitled_46.glb",
+                    "rotation": [-0.1158330515009674, 0.3164249766532016, 0.0389624604446174, 0.9407124241797261],
+                    "position": [-0.1025028053925485, 3.3467472957636835, -1.7527729295548979],
+                    "target": [-0.1025103035866958, 3.3467441933156934, -1.7527828143210353],
+                },
+                // Add more cases as needed
+            };
 
-                let hasTilt = false;
-                for (const format of formats) {
-                    if (format?.formatType.includes("TILT")) {
-                        hasTilt = true;
-                        break;
-                    }
-                }
-                for (const format of formats) {
-                    // Skip Internet Archive URLs because they just give CORS errors
-                    if (format.root.url.startsWith("https://web.archive.org/")) continue;
-                    // Weird special case specific to Icosa Gallery
-                    // Our non-Tilt files are currently broken GLTF v1 files but we have an alternate url that does work
-                    if (!hasTilt && format?.formatType === "GLTF") {
-                        console.log(`Loading Updated variant of GLTF2 ${format.root.url}`);
-                        let url = format.root.url.replace(".gltf", "_%28GLTFupdated%29.gltf");
-                        await viewer.loadGltf(url, true, overrides);
-                        break;
-
-                    } else if (format?.formatType === "GLTF2") {
-                        console.log(`Loading GLTF2 ${format.root.url}`);
-                        await viewer.loadGltf(format.root.url, true, overrides);
-                        break;
-                    } else if (format?.formatType === "GLTF") {
-                        console.log(`Loading GLTF1 ${format.root.url}`);
-                        await viewer.loadGltf1(format.root.url, true, overrides);
-                        break;
-                    }
-                }
-            } else {
-                // Just some arbitrary values - not matching the actual asset
-                let presentationParams = {"camera": {"type": "perspective", "rotation": [-0.1462917120878683, 0.2306854792441933, 0.03510497024615985, 0.9613275121956582], "perspective": {"yfov": 0, "znear": 0.1}, "translation": [1.586311936378479, 2.004192590713501, 3.153336048126221], "GOOGLE_camera_settings": null}, "colorSpace": "GAMMA", "backgroundColor": "#000000", "GOOGLE_hemi_light": null, "orientingRotation": {"w": 1}, "GOOGLE_backgrounds": {"color": [0, 0, 0]}, "GOOGLE_lighting_rig": null, "GOOGLE_geometry_data": null, "GOOGLE_scene_rotation": null, "GOOGLE_lights_image_based": null, "GOOGLE_real_world_transform": {"scaling_factor": 1}, "GOOGLE_initial_camera_motion": null};
-                let overrides = {
-                    'defaultBackgroundColor': presentationParams?.backgroundColor || "#000000",
-                    'camera': presentationParams.camera,
-                    'geometryData': presentationParams.GOOGLE_geometry_data,
-                    'colorSpace': presentationParams.colorSpace,
-                };
-
-                // await viewer.loadGltf1("https://s3.us-east-005.backblazeb2.com/icosa-gallery/poly/0F3ek3idOaX/sketch.gltf", true, {"camera": presentationParams.camera});
-                // await viewer.loadGltf("formats/gltf2/monster-updatedgltf/model.gltf", true, {"camera": presentationParams.camera});
-                // await viewer.loadGltf("formats/gltf2/mimic-updated-gltf/sketch.gltf", true, {"camera": presentationParams.camera});
-                // await viewer.loadGltf("formats/gltf2/mimic-unknown-glb-b/sketch.glb", true, {"camera": presentationParams.camera});
-                await viewer.loadGltf1("formats/gltf1/mimic-polygone-gltf/sketch.gltf", true, overrides);
-                // await viewer.loadPly("formats/ply/dolphins_colored.ply", overrides);
-                // await viewer.loadStl("formats/stl/colored.stl", overrides);
-                // await viewer.loadUsdz("formats/usdz/saeukkang.usdz", overrides);
-                // await viewer.loadVox("formats/vox/teapot.vox", overrides);
+            let url, rotation, position, target;
+            if (id in cases) {
+                ({ url, rotation, position, target } = cases[id]);
+            }
+            else {
+                // will try to load the model from an arbitrary URL
+                console.error(`No model found for id: ${id}, attempting to load as URL`);
+                url = id;
+                rotation = [0, 0, 0, 1];
+                position = [0, 0, 0];
+                target = [0, 0, 0];
             }
 
+            let presentationParams = { "camera": { "type": "perspective", "rotation": rotation, "perspective": { "yfov": 0, "znear": 0.1 }, "translation": position, "GOOGLE_camera_settings": null }, "colorSpace": "GAMMA", "backgroundColor": null, "GOOGLE_hemi_light": null, "orientingRotation": { "w": 1 }, "GOOGLE_backgrounds": null, "GOOGLE_lighting_rig": null, "GOOGLE_geometry_data": null, "GOOGLE_scene_rotation": null, "GOOGLE_lights_image_based": null, "GOOGLE_real_world_transform": { "scaling_factor": 1 }, "GOOGLE_initial_camera_motion": null };
+            let overrides = {
+                'defaultBackgroundColor': presentationParams?.backgroundColor || null,
+                'camera': presentationParams.camera,
+                'geometryData': presentationParams.GOOGLE_geometry_data,
+                'colorSpace': presentationParams.colorSpace,
+            };
+
+            console.log(`Loading GLTF2 model from URL: ${url}`);
+            await viewer.loadGltf(url, true, overrides);
+            viewer.cameraControls.setTarget(target[0], target[1], target[2]);
+
+            // await viewer.loadGltf("formats/gltf2/all_brushes.glb", true, {"camera": presentationParams.camera});
+            // await viewer.loadGltf("formats/gltf2/gradient.gltf", true, {"camera": presentationParams.camera});
+
+
+            // Construct GUI
             const gui = new GUI({ autoPlace: false });
             const parentDiv = document.getElementById('icosa-viewer');
             parentDiv.appendChild(gui.domElement);
