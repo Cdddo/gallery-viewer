@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <html>
     <head>
-        <title>.gltf/.glb Viewer | Icosa Viewer</title>
+        <title>Glb Viewer</title>
         <style>
             html, body {
                 height: 100%;
@@ -30,6 +30,7 @@
             position: absolute;
             top: 0;
             right: 0;
+            display: none;
         }
     </style>
     <style>
@@ -72,7 +73,7 @@
     </style>
     <body style="margin: 0; background-color: black; display: flex; justify-content: center; align-items: center; height: 100vh;">
 
-        <div id="icosa-wrapper" style="position: relative; width: 80%; height: 80%; display: flex;">
+        <div id="icosa-wrapper" style="position: relative; width: 100%; height: 100%; display: flex;">
             <div id="tree-view" style="width: 250px; overflow-y: auto; flex-shrink: 0;"></div>
             <div id="icosa-viewer" style="flex-grow: 1; height: 100%;"></div>
         </div>
