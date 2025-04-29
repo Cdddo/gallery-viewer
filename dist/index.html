@@ -243,9 +243,16 @@
                 'colorSpace': presentationParams.colorSpace,
             };
 
+            let loaderr = false;
+            try {
             console.log(`Loading GLTF2 model from URL: ${url}`);
             await viewer.loadGltf(url, true, overrides);
-            viewer.cameraControls.setTarget(target[0], target[1], target[2]);
+            } catch (error) {
+                loaderr = true;
+                console.error('Error loading GLTF2 model:', error);
+            }
+
+            if(!loaderr) viewer.cameraControls.setTarget(target[0], target[1], target[2]);
 
             // await viewer.loadGltf("formats/gltf2/all_brushes.glb", true, {"camera": presentationParams.camera});
             // await viewer.loadGltf("formats/gltf2/gradient.gltf", true, {"camera": presentationParams.camera});
