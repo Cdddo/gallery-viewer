@@ -331,7 +331,29 @@
                         }
                     });
                 },
-                logInfo: ""
+                logCamera: () => {
+                    let cameraQua = viewer.activeCamera.quaternion;
+                    let cameraPos = viewer.activeCamera.position;
+                    let cameraTar = viewer.cameraControls.getTarget();
+
+                    // Format quaternion as [x, y, z, w] with fixed precision
+                    const quaString = `[${cameraQua.x.toFixed(16)}, ${cameraQua.y.toFixed(16)}, ${cameraQua.z.toFixed(16)}, ${cameraQua.w.toFixed(16)}]`;
+                    // Format position as [x, y, z] with fixed precision
+                    const posString = `[${cameraPos.x.toFixed(16)}, ${cameraPos.y.toFixed(16)}, ${cameraPos.z.toFixed(16)}]`;
+                    // Format target as [x, y, z] with fixed precision
+                    const tarString = `[${cameraTar.x.toFixed(16)}, ${cameraTar.y.toFixed(16)}, ${cameraTar.z.toFixed(16)}]`;
+
+                    console.log('Camera Quaternion:', quaString, 'Camera Position:', posString, 'Camera Target:', tarString);
+                    doLogging([quaString, posString, tarString]);
+                },
+                resetCamera: () => {
+                    viewer.cameraControls.reset();
+                    // viewer.cameraControls.camera.position.set(0, 0, 0);
+                    // viewer.cameraControls.camera.rotation.set(0, 0, 0);
+                    // viewer.cameraControls.camera.updateMatrixWorld();
+                    console.log('Camera reset - Position:', viewer.cameraControls.camera.position, 'Rotation:', viewer.cameraControls.camera.rotation);
+                },
+                logInfo: "",
             };
 
             const toggleTreeView = gui.add(guiParams, 'toggleTreeView').name("Toggle Hierarchy");
@@ -351,6 +373,8 @@
             const levelCameraControl = folder1.add(guiParams, 'levelCamera').name("Level Camera");
             const frameSceneControl = folder1.add(guiParams, 'frameScene').name("Frame Scene");
             const logTargetPointControl = folder1.add(guiParams, 'logTargetPoint').name("Log Target Point");
+            const logCameraControl = folder1.add(guiParams, 'logCamera').name("Log Camera Data");
+            const resetCameraControl = folder1.add(guiParams, 'resetCamera').name("Reset Camera");
 
             const folder2 = gui.addFolder( 'Camera Target' );
             const targetPivotControl = folder2.add(guiParams, 'targetPivot').name("Target Pivot");
