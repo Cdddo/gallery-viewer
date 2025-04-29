@@ -245,8 +245,8 @@
 
             let loaderr = false;
             try {
-            console.log(`Loading GLTF2 model from URL: ${url}`);
-            await viewer.loadGltf(url, true, overrides);
+                console.log(`Loading GLTF2 model from URL: ${url}`);
+                await viewer.loadGltf(url, true, overrides);
             } catch (error) {
                 loaderr = true;
                 console.error('Error loading GLTF2 model:', error);
@@ -372,6 +372,21 @@
                     // viewer.cameraControls.camera.updateMatrixWorld();
                     console.log('Camera reset - Position:', viewer.cameraControls.camera.position, 'Rotation:', viewer.cameraControls.camera.rotation);
                 },
+                logBackground: () => {
+                    let t = viewer.scene.background;
+                    if (t instanceof THREE.Color) {
+                        t = "#" + t.getHexString();
+                    } else if (t === null) {
+                        t = "null";
+                    } else {
+                        t = "unknown type";
+                    }
+                    console.log(t);
+                    doLogging(t);
+                },
+                nullBackground: () => {
+                    viewer.scene.background = null;
+                },
                 logInfo: "",
             };
 
@@ -387,6 +402,8 @@
             const listLightsControl = gui.add(guiParams, 'listLights').name("List Lights");
             const listOverridesControl = gui.add(guiParams, 'listOverrides').name("List Overrides");
             const listSketchMetadataControl = gui.add(guiParams, 'listSketchMetadata').name("List Sketch MetaData");
+            const logBackgroundControl = gui.add(guiParams, 'logBackground').name("Log Background");
+            const nullBackgroundControl = gui.add(guiParams, 'nullBackground').name("Null Background");
 
             const folder1 = gui.addFolder( 'Camera' );
             const levelCameraControl = folder1.add(guiParams, 'levelCamera').name("Level Camera");
