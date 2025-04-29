@@ -349,7 +349,7 @@ export class Viewer {
             renderer.outputColorSpace = THREE.SRGBColorSpace;
         }
 
-        renderer.xr.enabled = true;
+        // renderer.xr.enabled = true;
 
         function handleController(inputSource: XRInputSource) {
             const gamepad = inputSource.gamepad;
@@ -365,31 +365,31 @@ export class Viewer {
         this.cameraRig = new THREE.Group();
         this.selectedNode = null;
 
-        let controller0: THREE.Group;
-        let controller1: THREE.Group;
-        let controllerGrip0;
-        let controllerGrip1;
-        let previousLeftThumbstickX = 0;
+        // let controller0: THREE.Group;
+        // let controller1: THREE.Group;
+        // let controllerGrip0;
+        // let controllerGrip1;
+        // let previousLeftThumbstickX = 0;
 
-        controller0 = renderer.xr.getController(0);
-        this.scene.add(controller0);
+        // controller0 = renderer.xr.getController(0);
+        // this.scene.add(controller0);
 
 
-        controller1 = renderer.xr.getController(1);
-        this.scene.add(controller1);
+        // controller1 = renderer.xr.getController(1);
+        // this.scene.add(controller1);
 
-        const controllerModelFactory = new XRControllerModelFactory();
+        // const controllerModelFactory = new XRControllerModelFactory();
 
-        controllerGrip0 = renderer.xr.getControllerGrip(0);
-        controllerGrip0.add(controllerModelFactory.createControllerModel(controllerGrip0));
-        this.scene.add(controllerGrip0);
+        // controllerGrip0 = renderer.xr.getControllerGrip(0);
+        // controllerGrip0.add(controllerModelFactory.createControllerModel(controllerGrip0));
+        // this.scene.add(controllerGrip0);
 
-        controllerGrip1 = renderer.xr.getControllerGrip(1);
-        controllerGrip1.add(controllerModelFactory.createControllerModel(controllerGrip1));
-        this.scene.add(controllerGrip1);
+        // controllerGrip1 = renderer.xr.getControllerGrip(1);
+        // controllerGrip1.add(controllerModelFactory.createControllerModel(controllerGrip1));
+        // this.scene.add(controllerGrip1);
 
-        let xrButton = XRButton.createButton( renderer );
-        this.icosa_frame.appendChild(xrButton);
+        // let xrButton = XRButton.createButton( renderer );
+        // this.icosa_frame.appendChild(xrButton);
 
         function initCustomUi(viewerContainer : HTMLElement) {
 
