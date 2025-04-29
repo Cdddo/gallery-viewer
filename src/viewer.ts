@@ -307,7 +307,7 @@ export class Viewer {
         this.environmentPath = new URL('environments/', assetBaseUrl);
         this.texturePath = new URL('textures/', assetBaseUrl);
 
-        this.defaultBackgroundColor = new THREE.Color(0x000000);
+        this.defaultBackgroundColor = new THREE.Color(0x000000, 0); // HYPER make bg transparent
 
         this.tiltLoader = new TiltLoader(manager);
         this.tiltLoader.setBrushPath(this.brushPath.toString());
@@ -337,9 +337,11 @@ export class Viewer {
 
         const renderer = new THREE.WebGLRenderer({
             canvas : this.canvas,
-            antialias: true
+            antialias: true,
+            alpha: true // HYPER ensure transparency for renderer
         });
 
+        renderer.setClearColor(0x000000, 0); // HYPER set clear color to transparent
         renderer.setPixelRatio(window.devicePixelRatio);
 
         // TODO linear/gamma selection
@@ -585,7 +587,7 @@ export class Viewer {
     private initializeScene(overrides : any) {
 
         let defaultBackgroundColor : string = overrides?.["defaultBackgroundColor"];
-        if (!defaultBackgroundColor) {defaultBackgroundColor = "#000000";}
+        if (!defaultBackgroundColor) { defaultBackgroundColor = new THREE.Color(0x000000, 0); } // HYPER transparency
         this.defaultBackgroundColor = new THREE.Color(defaultBackgroundColor);
 
         if(!this.loadedModel)
@@ -2412,7 +2414,7 @@ export class Viewer {
             this.skyObject = sky;
         } else {
             // Use the default background color if there's no sky
-            this.scene.background = this.defaultBackgroundColor;
+            this.scene.background = this.defaultBackgroundColor; // HYPER set to null?
         }
     }
 
