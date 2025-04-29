@@ -338,10 +338,11 @@ export class Viewer {
         const renderer = new THREE.WebGLRenderer({
             canvas : this.canvas,
             antialias: true,
-            alpha: true // HYPER ensure transparency for renderer
+            alpha: true, // HYPER ensure transparency for renderer
+            clearColor: 0x000000,
+            clearAlpha: 0,
         });
 
-        renderer.setClearColor(0x000000, 0); // HYPER set clear color to transparent
         renderer.setPixelRatio(window.devicePixelRatio);
 
         // TODO linear/gamma selection

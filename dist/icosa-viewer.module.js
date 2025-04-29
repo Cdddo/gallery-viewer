@@ -76521,9 +76521,10 @@ class $3c43f222267ed54b$export$2ec4afd9b3c16a85 {
         const renderer = new $ea01ff4a5048cd08$exports.WebGLRenderer({
             canvas: this.canvas,
             antialias: true,
-            alpha: true // HYPER ensure transparency for renderer
+            alpha: true, // HYPER ensure transparency for renderer
+            clearColor: 0x000000,
+            clearAlpha: 0,
         });
-        renderer.setClearColor(0x000000, 0); // HYPER set clear color to transparent
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.outputColorSpace = $ea01ff4a5048cd08$exports.SRGBColorSpace;
         // renderer.xr.enabled = true;
