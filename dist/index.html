@@ -107,8 +107,15 @@
             initCameraFeed();
 
             // Get parameters from URL
-            const id = new URLSearchParams(window.location.search).get('id');
+            let id = new URLSearchParams(window.location.search).get('id');
             const cases = {
+                "x": {
+                    "name": "All Brushes",
+                    "url": "https://raw.githubusercontent.com/icosa-foundation/gallery-viewer/main/dist/formats/gltf2/all_brushes.glb",
+                    "rotation": [-0.0165708323927185, 0.9244669154123493, 0.0404468630751353, 0.3787484403785314],
+                    "position": [0.4291838234386727, 1.2106465765519570, -1.2573205242001757],
+                    "target": [-1.0864410107125453, 1.0212620253839595, 0.2819123706173585],
+                },
                 "0": {
                     "name": "Test Model",
                     "url": "https://raw.githubusercontent.com/Cdddo/ARQR/main/models/test/Untitled_0.glb",
@@ -211,12 +218,17 @@
             };
 
             let url, rotation, position, target;
+            if (id == null) {
+                // No id provided, default to "x"
+                console.warn("No id provided in URL, defaulting to 'x'");
+                id = "x";
+            }
             if (id in cases) {
                 ({ url, rotation, position, target } = cases[id]);
             }
             else {
-                // will try to load the model from an arbitrary URL
-                console.error(`No model found for id: ${id}, attempting to load as URL`);
+                // No id match, will try to load the model from an arbitrary URL
+                console.warn(`No model found for id: ${id}, attempting to load as URL`);
                 url = id;
                 rotation = [0, 0, 0, 1];
                 position = [0, 0, 0];
