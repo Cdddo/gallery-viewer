@@ -2414,7 +2414,7 @@ export class Viewer {
             this.skyObject = sky;
         } else {
             // Use the default background color if there's no sky
-            this.scene.background = this.defaultBackgroundColor; // HYPER set to null?
+            this.scene.background = null; // HYPER set to null for clear background
         }
     }
 

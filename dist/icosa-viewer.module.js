@@ -78461,7 +78461,7 @@ class $3c43f222267ed54b$export$2ec4afd9b3c16a85 {
             this.scene?.add(sky);
             this.skyObject = sky;
         } else // Use the default background color if there's no sky
-        this.scene.background = this.defaultBackgroundColor;  // HYPER set to null?
+        this.scene.background = null;  // HYPER set to null for clear background
     }
     frameScene() {
         if (this.selectedNode != null) // If a node is selected in the treeview, frame that
