@@ -9,9 +9,9 @@ Edita el index.html y icosa-viewer.module.js en /dist con estas modificaciones:
 
 - Desactiva botón de XR y UI de debugging
 - Funcionalidad para cargar modelos de URLs arbitrarios
+- Lógica para ajustar posición de camara hardcoded por modelo
 - Fondo transparente y vista de camara tras modelo
 - Agrega funciones para obtener la posición de la camara
-- Lógica para ajustar posición de camara hardcoded por modelo
 
 El proyecto esta hosteado en mi github https://github.com/Cdddo/cdddo.github.io/tree/main/ARQR
 Los modelos están en repo ARQR https://github.com/Cdddo/ARQR/tree/main/models
